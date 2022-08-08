@@ -1,8 +1,8 @@
 {
-  "name": "inkroll-index-be",
+  "name": "yorikhu-index-be",
   "version": "0.0.1",
   "description": "Here is a personal primary website be-source. In order to make the front-end website work properly, I have to learn node well 😏.",
-  "author": "inkroll",
+  "author": "Yorikhu",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
