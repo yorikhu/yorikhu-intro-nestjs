@@ -9,6 +9,8 @@ import { AllExceptionsFilter } from './common/exceptions/base.exception.filter';
 import { HttpExceptionFilter } from './common/interceptors/exceptions/http.exception.filter';
 import { generateDocument } from './doc';
 
+declare const module: any;
+
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -23,6 +25,12 @@ async function bootstrap() {
 
   // 创建文档
   generateDocument(app);
+
+  // 热重载
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 
   await app.listen(3000);
 }

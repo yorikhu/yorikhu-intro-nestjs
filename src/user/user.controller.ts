@@ -6,26 +6,25 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { BusinessException } from 'src/common/interceptors/exceptions/business.exception';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('User')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
   }
 
   @Get(':id')
@@ -43,14 +42,10 @@ export class UserController {
     return this.userService.remove(+id);
   }
 
-  @Get('findBusinessError')
-  findBusinessError() {
-    const a: any = {};
-    try {
-      console.log(a.b.c);
-    } catch (error) {
-      throw new BusinessException('你这个参数错了');
-    }
-    return this.userService.findAll();
+  @Put(':id')
+  devEnv(@Param('id') id: string) {
+    // return this.userService.remove(+id);
+    console.log(this.configService.get('TEST_VALUE').name);
+    return this.configService.get('TEST_VALUE').name;
   }
 }
